@@ -51,6 +51,19 @@ Via AI's login page to authorize access. Tokens are automatically refreshed.
 
 ## Tools
 
+### Onboarding
+
+New Via accounts must finish onboarding before any other tool will work. Tools called against an
+unonboarded account return a GraphQL error with `extensions.code = "ONBOARDING_REQUIRED"` directing
+the host to call the `Onboard` tool first.
+
+| Tool      | Description                                                                                                                                                                                                                                                                                                                                                                               |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Onboard` | Walks the user through Via onboarding: terms acceptance, LinkedIn profile linking, network preview, and circle creation. Each call advances the conversation by one user turn — relay `assistantMessage` back to the user, then call again with their reply. State is keyed per user; a `reset` flag exists but is rarely needed because the workflow fast-forwards past completed steps. |
+
+`GetAuthenticatedUser` and `SubmitAgentFeedback` are also exempt from the gate so hosts can read
+onboarding status and submit feedback at any time.
+
 ### Queries (Read-Only)
 
 | Tool                                  | Description                                                                                                                |
@@ -61,20 +74,20 @@ Via AI's login page to authorize access. Tokens are automatically refreshed.
 | `FindTopConnectionPaths`              | Find the strongest connection paths to anyone at a target company.                                                         |
 | `FindConnectionPathsToPeople`         | Find connection paths to one or more specific people by their ID.                                                          |
 | `GenerateConnectionPathExplanation`   | Generate a natural language explanation of a connection path, suitable for introductions.                                  |
-| `GetAuthenticatedUser`                | Get your Via AI profile and onboarding status.                                                                             |
+| `GetAuthenticatedUser`                | Get your Via AI profile and onboarding status. Callable before onboarding is complete.                                     |
 | `GetUserCircles`                      | List all your circles (tags) for organizing inner circle members.                                                          |
 | `GetUserCircleMembers`                | List members of your inner circle with contact details and employment info. Supports pagination and tag filtering.         |
 
 ### Mutations (Write)
 
-| Tool                           | Description                                                              |
-| ------------------------------ | ------------------------------------------------------------------------ |
-| `AddPersonToUserCircle`        | Add a person to your inner circle, optionally assigning them to circles. |
-| `RemovePersonFromUserCircle`   | Remove a person from your inner circle.                                  |
-| `CreateUserCircle`             | Create a new circle (tag) for organizing contacts.                       |
-| `DeleteUserCircle`             | Delete a circle. Members are not removed from the inner circle.          |
-| `UpdatePersonCircleMembership` | Update which circles a person belongs to (replace operation).            |
-| `SubmitAgentFeedback`          | Submit feedback about your experience using Via AI tools.                |
+| Tool                           | Description                                                                                       |
+| ------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `AddPersonToUserCircle`        | Add a person to your inner circle, optionally assigning them to circles.                          |
+| `RemovePersonFromUserCircle`   | Remove a person from your inner circle.                                                           |
+| `CreateUserCircle`             | Create a new circle (tag) for organizing contacts.                                                |
+| `DeleteUserCircle`             | Delete a circle. Members are not removed from the inner circle.                                   |
+| `UpdatePersonCircleMembership` | Update which circles a person belongs to (replace operation).                                     |
+| `SubmitAgentFeedback`          | Submit feedback about your experience using Via AI tools. Callable before onboarding is complete. |
 
 ## Usage Examples
 
