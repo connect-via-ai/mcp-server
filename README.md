@@ -26,8 +26,22 @@ through natural conversation.
 
 ### Claude.ai / Claude Desktop
 
-Via AI is available as a connector in Claude. Search for "Via AI" in the connectors directory and
-follow the OAuth flow to connect your account.
+Add Via AI as a custom connector:
+
+1. Open Claude and click **Customize** in the left sidebar.
+
+   ![Customize in the Claude sidebar](docs/assets/mcp/customize-sidebar.png)
+
+2. Select **Connectors**, click the **+** button, and choose **Add custom connector**.
+
+   ![Add custom connector from the Connectors panel](docs/assets/mcp/add-custom-connector.png)
+
+3. In the **Add custom connector** dialog, enter a name (e.g. `Via AI`) and the server URL
+   `https://mcp.connectvia.ai/mcp`, then click **Add**.
+
+   ![Add custom connector dialog with the Via AI URL](docs/assets/mcp/connector-dialog.png)
+
+4. Follow the OAuth flow to authorize your Via AI account.
 
 ### Claude Code
 
