@@ -89,22 +89,21 @@ onboarding status and submit feedback at any time.
 | `FindConnectionPathsToPeople`         | Find connection paths to one or more specific people by their ID.                                                          |
 | `GenerateConnectionPathExplanation`   | Generate a natural language explanation of a connection path, suitable for introductions.                                  |
 | `GetAuthenticatedUser`                | Get your Via AI profile and onboarding status. Callable before onboarding is complete.                                     |
-| `GetUserCircles`                      | List all your circles (tags) for organizing inner circle members.                                                          |
+| `GetUserCircles`                      | List all circles visible to you (personal + active team), with scope and auto-managed flags.                               |
 | `GetUserCircleMembers`                | List members of your inner circle with contact details and employment info. Supports pagination and tag filtering.         |
 | `ListTeamTargets`                     | List or search the active team's saved Targets list with type filtering, sorting, and pagination.                          |
 
 ### Mutations (Write)
 
-| Tool                           | Description                                                                                       |
-| ------------------------------ | ------------------------------------------------------------------------------------------------- |
-| `AddPersonToUserCircle`        | Add a person to your inner circle, optionally assigning them to circles.                          |
-| `RemovePersonFromUserCircle`   | Remove a person from your inner circle.                                                           |
-| `CreateUserCircle`             | Create a new circle (tag) for organizing contacts.                                                |
-| `DeleteUserCircle`             | Delete a circle. Members are not removed from the inner circle.                                   |
-| `UpdatePersonCircleMembership` | Update which circles a person belongs to (replace operation).                                     |
-| `AddTeamTargets`               | Add people or companies to the active team's saved Targets list.                                  |
-| `RemoveTeamTarget`             | Remove a saved target from the active team's Targets list.                                        |
-| `SubmitAgentFeedback`          | Submit feedback about your experience using Via AI tools. Callable before onboarding is complete. |
+| Tool                         | Description                                                                                       |
+| ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| `AddPersonToUserCircle`      | Add a person to a circle (idempotent; one circle per call).                                       |
+| `RemovePersonFromUserCircle` | Remove a person from a circle (removing their last circle removes the membership).                |
+| `CreateUserCircle`           | Create a new circle (tag) for organizing contacts.                                                |
+| `DeleteUserCircle`           | Delete a circle. Members are not removed from the inner circle.                                   |
+| `AddTeamTargets`             | Add people or companies to the active team's saved Targets list.                                  |
+| `RemoveTeamTarget`           | Remove a saved target from the active team's Targets list.                                        |
+| `SubmitAgentFeedback`        | Submit feedback about your experience using Via AI tools. Callable before onboarding is complete. |
 
 ## Usage Examples
 
