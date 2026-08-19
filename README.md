@@ -1,8 +1,7 @@
 # Via AI MCP Server
 
-Via AI's MCP server gives AI assistants access to relationship intelligence -- helping users
-discover connection paths, search for people and companies, and manage their professional network
-through natural conversation.
+Via AI's MCP server gives AI assistants read-only access to relationship intelligence -- helping
+users discover connection paths and search for people and companies through natural conversation.
 
 ## Features
 
@@ -10,11 +9,11 @@ through natural conversation.
   network graph
 - **Company Search**: Look up companies by name or domain with metadata including industry, employee
   count, and domains
+- **Circle Context**: See existing circle memberships in people-search results and use the existing
+  circle network when discovering connection paths
 - **Connection Path Discovery**: Find the strongest paths connecting you to anyone at a target
   company through shared work history, education, email interactions, calendar meetings, LinkedIn
   connections, and more
-- **Inner Circle Management**: Organize your key contacts into circles (tags), add/remove members,
-  and leverage your inner circle's network for warm introductions
 - **Path Explanations**: Generate natural language descriptions of how two people are connected,
   suitable for email introductions
 
@@ -65,18 +64,12 @@ Via AI's login page to authorize access. Tokens are automatically refreshed.
 
 ## Tools
 
-### Onboarding
+### Account readiness
 
-New Via accounts must finish onboarding before any other tool will work. Tools called against an
-unonboarded account return a GraphQL error with `extensions.code = "ONBOARDING_REQUIRED"` directing
-the host to call the `Onboard` tool first.
-
-| Tool      | Description                                                                                                                                                                                                                                                                                                                                                                               |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Onboard` | Walks the user through Via onboarding: terms acceptance, LinkedIn profile linking, network preview, and circle creation. Each call advances the conversation by one user turn — relay `assistantMessage` back to the user, then call again with their reply. State is keyed per user; a `reset` flag exists but is rarely needed because the workflow fast-forwards past completed steps. |
-
-`GetAuthenticatedUser` and `SubmitAgentFeedback` are also exempt from the gate so hosts can read
-onboarding status and submit feedback at any time.
+Via accounts must finish onboarding before using relationship-intelligence tools. Calls made before
+onboarding is complete return a GraphQL error with `extensions.code = "ONBOARDING_REQUIRED"`.
+Complete onboarding at [app.connectvia.ai](https://app.connectvia.ai), then retry the tool.
+`GetAuthenticatedUser` remains available so hosts can check onboarding status.
 
 ### Queries (Read-Only)
 
@@ -89,21 +82,6 @@ onboarding status and submit feedback at any time.
 | `FindConnectionPathsToPeople`         | Find connection paths to one or more specific people by their ID.                                                          |
 | `GenerateConnectionPathExplanation`   | Generate a natural language explanation of a connection path, suitable for introductions.                                  |
 | `GetAuthenticatedUser`                | Get your Via AI profile and onboarding status. Callable before onboarding is complete.                                     |
-| `GetUserCircles`                      | List all circles visible to you (personal + active team), with scope and auto-managed flags.                               |
-| `GetUserCircleMembers`                | List members of your inner circle with contact details and employment info. Supports pagination and tag filtering.         |
-| `ListTeamTargets`                     | List or search the active team's saved Targets list with type filtering, sorting, and pagination.                          |
-
-### Mutations (Write)
-
-| Tool                         | Description                                                                                       |
-| ---------------------------- | ------------------------------------------------------------------------------------------------- |
-| `AddPersonToUserCircle`      | Add a person to a circle (idempotent; one circle per call).                                       |
-| `RemovePersonFromUserCircle` | Remove a person from a circle (removing their last circle removes the membership).                |
-| `CreateUserCircle`           | Create a new circle (tag) for organizing contacts.                                                |
-| `DeleteUserCircle`           | Delete a circle. Members are not removed from the inner circle.                                   |
-| `AddTeamTargets`             | Add people or companies to the active team's saved Targets list.                                  |
-| `RemoveTeamTarget`           | Remove a saved target from the active team's Targets list.                                        |
-| `SubmitAgentFeedback`        | Submit feedback about your experience using Via AI tools. Callable before onboarding is complete. |
 
 ## Usage Examples
 
@@ -134,22 +112,6 @@ then uses `FindConnectionPathsToPeople` to discover connection paths. Finally, i
 **Result:** "John Smith is a Senior Product Manager at Acme Corp. You're connected through your
 colleague Sarah Chen -- they worked together at TechCo from 2018 to 2021 and still exchange emails
 regularly. Sarah would be a great person to ask for an introduction."
-
-### Example 3: Organizing your network with circles
-
-**User prompt:** "Create a circle called 'Q1 Prospects' and add the top 3 people from my strongest
-connections at Datadog to it."
-
-**What happens:** Claude calls `CreateUserCircle` to create the "Q1 Prospects" circle, then uses
-`SearchCompaniesByNameOrDomain` to find Datadog, followed by `FindTopConnectionPaths` to identify
-the strongest connections. It then calls `SearchPeopleByNameOrLinkedInOrEmail` for each person and
-`AddPersonToUserCircle` to add them to the new circle.
-
-**Result:** "Done! I created the 'Q1 Prospects' circle and added 3 connections from Datadog:
-
-1. Lisa Wang - VP of Sales
-2. Michael Torres - Head of Partnerships
-3. Priya Patel - Director of Business Development"
 
 ## Privacy Policy
 
