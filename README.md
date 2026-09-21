@@ -1,21 +1,25 @@
+<!-- Generated from Via's internal docs. Edits made in this public repo are overwritten on the next sync. -->
+
 # Via AI MCP Server
 
-Via AI's MCP server gives AI assistants read-only access to relationship intelligence -- helping
-users discover connection paths and search for people and companies through natural conversation.
+Via AI's MCP server gives AI assistants read-only access to your professional network --
+finding people and companies, and showing how well-connected you are to each one, through
+natural conversation -- plus a few explicit actions, such as saving a result as a Target
+List or following a person or company.
 
 ## Features
 
-- **People Search**: Find people by name, email, or LinkedIn profile across Via's professional
-  network graph
-- **Company Search**: Look up companies by name or domain with metadata including industry, employee
-  count, and domains
-- **Circle Context**: See existing circle memberships in people-search results and use the existing
-  circle network when discovering connection paths
-- **Connection Path Discovery**: Find the strongest paths connecting you to anyone at a target
-  company through shared work history, education, email interactions, calendar meetings, LinkedIn
-  connections, and more
-- **Path Explanations**: Generate natural language descriptions of how two people are connected,
-  suitable for email introductions
+- **People search**: Find people by name, persona, role, title, function, seniority, or
+  location, or look up one exact person by email or LinkedIn profile URL.
+- **Company search**: Look up companies by name or domain, with employee count, industries,
+  and domains.
+- **Access on every row**: Every person or company result carries a compact summary of how
+  well you can reach them -- no extra query required.
+- **Pathways**: Select a person from a result to open the routes connecting you to them,
+  with the evidence behind each one (shared work history, education, email, meetings, and
+  more).
+- **Insights**: Ask for a specific rollup -- your strongest connections, your best-connected
+  companies, or where your network clusters by function or location.
 
 ## Setup
 
@@ -44,13 +48,20 @@ Add Via AI as a custom connector:
 
 ### Claude Code
 
-Add to your Claude Code configuration:
+```
+claude mcp add --transport http via https://mcp.connectvia.ai/mcp
+```
+
+Rendered results and Pathways need an MCP Apps-capable client such as Claude.ai or Claude
+Desktop; in Claude Code the same tools return data rows.
+
+Or add it to your Claude Code configuration directly:
 
 ```json
 {
   "mcpServers": {
-    "via-ai": {
-      "type": "url",
+    "via": {
+      "type": "http",
       "url": "https://mcp.connectvia.ai/mcp"
     }
   }
@@ -59,59 +70,74 @@ Add to your Claude Code configuration:
 
 ### Authentication
 
-Via AI uses **OAuth 2.0 Authorization Code Flow**. When you first connect, you'll be redirected to
-Via AI's login page to authorize access. Tokens are automatically refreshed.
-
-## Tools
+Via AI uses OAuth 2.0 through WorkOS AuthKit, with standard MCP resource-server discovery.
+When you first connect, you'll be redirected to Via AI's login page to authorize access.
+Tokens are automatically refreshed.
 
 ### Account readiness
 
-Via accounts must finish onboarding before using relationship-intelligence tools. Calls made before
-onboarding is complete return a GraphQL error with `extensions.code = "ONBOARDING_REQUIRED"`.
-Complete onboarding at [app.connectvia.ai](https://app.connectvia.ai), then retry the tool.
-`GetAuthenticatedUser` remains available so hosts can check onboarding status.
+New accounts finish a short onboarding step (Terms acceptance and profile) at
+[app.connectvia.ai](https://app.connectvia.ai). `get_authenticated_user` returns your
+profile and, where enabled, your Terms and onboarding status.
 
-### Queries (Read-Only)
+## Companion skill / plugin
 
-| Tool                                  | Description                                                                                                                |
-| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `SearchPeopleByNameOrLinkedInOrEmail` | Search for people by name, LinkedIn slug, or email. Returns up to 20 results with profile metadata and circle memberships. |
-| `FindPeopleByEmailsOrLinkedIn`        | Look up one or more people by email or LinkedIn slug. Returns profiles in the same order as input.                         |
-| `SearchCompaniesByNameOrDomain`       | Search for companies by name or domain. Returns up to 5 results per query with employee count, industries, and domains.    |
-| `FindTopConnectionPaths`              | Find the strongest connection paths to anyone at a target company.                                                         |
-| `FindConnectionPathsToPeople`         | Find connection paths to one or more specific people by their ID.                                                          |
-| `GenerateConnectionPathExplanation`   | Generate a natural language explanation of a connection path, suitable for introductions.                                  |
-| `GetAuthenticatedUser`                | Get your Via AI profile and onboarding status. Callable before onboarding is complete.                                     |
+Via publishes an official skill that teaches the assistant to use one typed query per
+request, read the Access summary already on each row, and open Pathways only from a
+selected person -- instead of re-querying or building its own tables. A packaged plugin
+bundles the skill with the connector for one-step setup.
+
+Both are available once you're signed in at [app.connectvia.ai](https://app.connectvia.ai):
+open the **Agent** panel, choose the **Connect** tab, and use the **Downloads** section of
+the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude's
+**Customize -> Plugins**; the skill unzips alongside your custom connector.
+
+## Tools
+
+### Read-only queries
+
+| Tool                     | Description                                                                                                          |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------|
+| `run_network_query`      | Find People or Companies across your network. Every row carries an Access summary; select a person to open Pathways. |
+| `search_people`          | Look up people by name, persona, or role, or find exact people by email or LinkedIn URL.                             |
+| `search_companies`       | Look up companies by name or domain, with employee count, industries, and domains.                                   |
+| `find_network_insights`  | Compute a specific insight: strongest connections, best-connected companies, or function/location breakdowns.        |
+| `get_authenticated_user` | Read your Via profile and your Terms/onboarding status.                                                              |
+| `get_mcp_status`         | Check that your Via connection is ready, or inspect a previous result.                                               |
+| `read_signals`           | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                |
+| `render_network_result`  | Display a completed People or Companies result.                                                                      |
+| `read_network_result_page` | Read more rows from a result, or check whether it has finished computing.                                        |
+
+### Actions
+
+These write to your Via workspace only (Target Lists, follows); they never contact anyone.
+
+| Tool                     | Description                                                                                                          |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------|
+| `run_product_command`    | Run one supported Via action, such as saving a result to a Target List or following a person or company.             |
+| `campaign_workspace`     | Save a People or Companies result as a Target List, list your Target Lists, or open one to see its activity.         |
 
 ## Usage Examples
 
 ### Example 1: Finding warm introductions to a target company
 
-**User prompt:** "How am I connected to people at Stripe? I'm looking for warm introductions."
+**User prompt:** "How am I connected to people at Stripe? I'm looking for warm
+introductions."
 
-**What happens:** Claude uses `SearchCompaniesByNameOrDomain` to find Stripe's domain, then calls
-`FindTopConnectionPaths` with the domain to discover ranked connection paths. Each path shows the
-chain of people connecting you to Stripe employees, along with evidence like shared work history,
-email interactions, and meeting history.
-
-**Result:** "You have 3 strong paths to people at Stripe:
-
-1. You -> Sarah Chen (worked together at Acme Corp 2019-2022, 47 emails exchanged) -> James Liu (VP
-   Engineering at Stripe)
-2. Your inner circle member Alex Park -> David Kim (Stanford '15 classmates) -> Maria Santos (Staff
-   Engineer at Stripe) ..."
+**What happens:** Claude calls `run_network_query` once for people at Stripe and renders
+the result. Each row carries an Access summary -- how well you can reach that person
+today. Selecting a promising person opens their Pathways: the routes connecting you to
+them, with the evidence behind each one, such as shared work history or email activity.
 
 ### Example 2: Researching a prospect before outreach
 
 **User prompt:** "Look up john.smith@acme.com and tell me how we're connected."
 
-**What happens:** Claude calls `FindPeopleByEmailsOrLinkedIn` with the email to find John's profile,
-then uses `FindConnectionPathsToPeople` to discover connection paths. Finally, it calls
-`GenerateConnectionPathExplanation` to create a natural language summary of the strongest path.
-
-**Result:** "John Smith is a Senior Product Manager at Acme Corp. You're connected through your
-colleague Sarah Chen -- they worked together at TechCo from 2018 to 2021 and still exchange emails
-regularly. Sarah would be a great person to ask for an introduction."
+**What happens:** Claude calls `search_people` with `identifiers: [{"email":
+"john.smith@acme.com"}]` for an exact match -- profile only, no network query. To answer
+how you're connected, Claude then runs one `run_network_query` for John; select him in the
+result to open his Pathways, showing the strongest route in along with its supporting
+evidence.
 
 ## Privacy Policy
 
