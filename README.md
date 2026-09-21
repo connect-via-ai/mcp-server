@@ -82,10 +82,10 @@ profile and, where enabled, your Terms and onboarding status.
 
 ## Companion skill / plugin
 
-Via publishes an official skill that teaches the assistant to use one typed query per
-request, read the Access summary already on each row, and open Pathways only from a
-selected person -- instead of re-querying or building its own tables. A packaged plugin
-bundles the skill with the connector for one-step setup.
+Via publishes an official **Network Workflow** skill that teaches the assistant to use one
+typed query per request, read the Access summary already on each row, and open Pathways
+only from a selected person -- instead of re-querying or building its own tables. The
+**Via** plugin bundles that skill with the connector for one-step setup.
 
 Both are available once you're signed in at [app.connectvia.ai](https://app.connectvia.ai):
 open the **Agent** panel, choose the **Connect** tab, and use the **Downloads** section of
