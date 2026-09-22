@@ -128,10 +128,12 @@ These write to your Via workspace only (Target Lists, follows); they never conta
 **User prompt:** "How am I connected to people at Stripe? I'm looking for warm
 introductions."
 
-**What happens:** Claude calls `run_network_query` once for people at Stripe and renders
-the result. Each row carries an Access summary -- how well you can reach that person
-today. Selecting a promising person opens their Pathways: the routes connecting you to
-them, with the evidence behind each one, such as shared work history or email activity.
+**What happens:** Claude calls `run_network_query` once for people at Stripe and answers
+from the returned rows. Each row carries an Access summary -- how well you can reach that
+person today. If you ask to browse or interact with the result, Claude displays that same
+saved result without repeating the search. Selecting a promising person in the interactive
+view opens their Pathways: the routes connecting you to them, with the evidence behind each
+one, such as shared work history or email activity.
 
 ### Example 2: Researching a prospect before outreach
 
