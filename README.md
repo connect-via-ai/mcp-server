@@ -98,17 +98,18 @@ the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude'
 
 ### Read-only queries
 
-| Tool                       | Description                                                                                                                                             |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run_network_query`        | Find People or Companies using your network and optional company columns from your files, with Access on every row and Pathways from a selected person. |
-| `search_people`            | Look up people by name, persona, or role, or find exact people by email or LinkedIn URL.                                                                |
-| `search_companies`         | Look up companies by name or domain, with employee count, industries, and domains.                                                                      |
-| `find_network_insights`    | Compute a specific insight: strongest connections, best-connected companies, or function/location breakdowns.                                           |
-| `get_authenticated_user`   | Read your Via profile and your Terms/onboarding status.                                                                                                 |
-| `get_mcp_status`           | Check that your Via connection is ready, or inspect a previous result.                                                                                  |
-| `read_signals`             | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                   |
-| `render_network_result`    | Display a completed People or Companies result.                                                                                                         |
-| `read_network_result_page` | Read more rows from a result, or check whether it has finished computing.                                                                               |
+| Tool                         | Description                                                                                                                                             |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run_network_query`          | Find People or Companies using your network and optional company columns from your files, with Access on every row and Pathways from a selected person. |
+| `search_people`              | Look up people by name, persona, or role, or find exact people by email or LinkedIn URL.                                                                |
+| `search_companies`           | Look up companies by name or domain, with employee count, industries, and domains.                                                                      |
+| `find_network_insights`      | Compute a specific insight: strongest connections, best-connected companies, or function/location breakdowns.                                           |
+| `get_authenticated_user`     | Read your Via profile and your Terms/onboarding status.                                                                                                 |
+| `get_mcp_status`             | Check that your Via connection is ready, or inspect a previous result.                                                                                  |
+| `read_signals`               | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                   |
+| `render_network_result`      | Display a completed People or Companies result.                                                                                                         |
+| `read_network_result_page`   | Read more rows from a result, or check whether it has finished computing.                                                                               |
+| `read_relationship_evidence` | Read why the viewer knows the people on a result, as deterministic relationship facts.                                                                  |
 
 ### Actions
 
