@@ -20,6 +20,9 @@ List or following a person or company.
   more).
 - **Insights**: Ask for a specific rollup -- your strongest connections, your best-connected
   companies, or where your network clusters by function or location.
+- **Prompt suggestions**: The connector publishes starting prompts, including a guided
+  walkthrough -- say `/via-demo` (or pick "Where does my network already reach my buyers?"
+  from your client's prompt suggestions) to run it.
 
 ## Setup
 
