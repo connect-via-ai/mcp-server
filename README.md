@@ -110,7 +110,7 @@ the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude'
 | `render_network_result`         | Display a completed People or Companies result.                                                                                                         |
 | `read_network_result_page`      | Read more rows from a result, or check whether it has finished computing.                                                                               |
 | `open_selected_person_pathways` | Verify introduction routes and relationship evidence for one person on a saved result.                                                                  |
-| `read_relationship_evidence`    | Read why the viewer knows the people on a result, as deterministic relationship facts.                                                                  |
+| `read_relationship_evidence`    | Read why you know people on a result, whose evidence arrives only when requested here or in Pathways.                                                   |
 
 ### Actions
 
