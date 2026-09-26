@@ -101,7 +101,7 @@ the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude'
 | Tool                            | Description                                                                                                                                             |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `run_network_query`             | Find People or Companies using your network and optional company columns from your files, with Access on every row and Pathways from a selected person. |
-| `search_people`                 | Look up people by name, persona, or role, or find exact people by email or LinkedIn URL.                                                                |
+| `search_people`                 | Look up people by name, or find exact people by email or LinkedIn URL; for title searches, use run_network_query.                                       |
 | `search_companies`              | Look up companies by name or domain, with employee count, industries, and domains.                                                                      |
 | `find_network_insights`         | Compute a specific insight: strongest connections, best-connected companies, or function/location breakdowns.                                           |
 | `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                 |
