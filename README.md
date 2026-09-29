@@ -4,8 +4,9 @@
 
 Via AI's MCP server gives AI assistants read-only access to your professional network --
 finding people and companies, and showing how well-connected you are to each one, through
-natural conversation -- plus a few explicit actions, such as saving a result as a Target
-List or following a person or company.
+natural conversation. It also exposes explicit workspace actions for lists, networks,
+follows, research settings, result views and exports. Some actions delete or replace data;
+Via enforces the applicable confirmation requirements. The connector does not send outreach.
 
 ## Features
 
@@ -21,8 +22,10 @@ List or following a person or company.
 - **Insights**: Ask for a specific rollup -- your strongest connections, your best-connected
   companies, or where your network clusters by function or location.
 - **Prompt suggestions**: The connector publishes starting prompts, including a guided
-  walkthrough -- say `/via-demo` (or pick "Where does my network already reach my buyers?"
-  from your client's prompt suggestions) to run it.
+  walkthrough -- say `via-demo` or `via demo`, or pick "Where does my network already reach
+  my buyers?" from your client's prompt suggestions. Slash-command support varies by client.
+  The reviewed walkthrough ships with each server release. Both the demo resource and
+  `get_demo_prompt` serve that version; neither fetches demo instructions from a website.
 
 ## Setup
 
@@ -55,8 +58,8 @@ Add Via AI as a custom connector:
 claude mcp add --transport http via https://mcp.connectvia.ai/mcp
 ```
 
-Rendered results and Pathways need an MCP Apps-capable client such as Claude.ai or Claude
-Desktop; in Claude Code the same tools return data rows.
+Interactive results need an MCP Apps-capable client such as Claude.ai or Claude Desktop.
+Data-only clients can read result rows and request a selected person's Pathways through tools.
 
 Or add it to your Claude Code configuration directly:
 
@@ -101,29 +104,29 @@ the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude'
 
 ### Read-only queries
 
-| Tool                            | Description                                                                                                                                             |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run_network_query`             | Find People or Companies using your network and optional company columns from your files, with Access on every row and Pathways from a selected person. |
-| `search_people`                 | Look up people by name, or find exact people by email or LinkedIn URL; for title searches, use run_network_query.                                       |
-| `search_companies`              | Look up companies by name or domain, with employee count, industries, and domains.                                                                      |
-| `find_network_insights`         | Compute a specific insight: strongest connections, best-connected companies, or function/location breakdowns.                                           |
-| `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                 |
-| `get_demo_prompt`               | Get the guided Via walkthrough, without needing to fetch a web page.                                                                                    |
-| `get_mcp_status`                | Check that your Via connection is ready, or inspect a previous result.                                                                                  |
-| `read_signals`                  | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                   |
-| `render_network_result`         | Display a completed People or Companies result.                                                                                                         |
-| `read_network_result_page`      | Read more rows from a result, or check whether it has finished computing.                                                                               |
-| `open_selected_person_pathways` | Verify introduction routes and relationship evidence for one person on a saved result.                                                                  |
-| `read_relationship_evidence`    | Read why you know people on a result, whose evidence arrives only when requested here or in Pathways.                                                   |
+| Tool                            | Description                                                                                                                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run_network_query`             | Find People or Companies using your network and optional company columns from files stored in Via, with Access on each row and Pathways from a selected person. |
+| `search_people`                 | Look up people by name, or find exact people by email or LinkedIn URL; for title searches, use run_network_query.                                               |
+| `search_companies`              | Look up companies by name or domain, with employee count, industries, and domains.                                                                              |
+| `find_network_insights`         | Compute a specific insight: strongest connections, best-connected companies, or function/location breakdowns.                                                   |
+| `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                         |
+| `get_demo_prompt`               | Get the guided Via walkthrough included with this server release, without fetching a web page.                                                                  |
+| `get_mcp_status`                | Check that your Via connection is ready, or inspect a previous result.                                                                                          |
+| `read_signals`                  | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                           |
+| `render_network_result`         | Display a completed People or Companies result.                                                                                                                 |
+| `read_network_result_page`      | Read more rows from a result, or check whether it has finished computing.                                                                                       |
+| `open_selected_person_pathways` | Verify introduction routes and relationship evidence for one person on a saved result.                                                                          |
+| `read_relationship_evidence`    | Read why you know people on a result, whose evidence arrives only when requested here or in Pathways.                                                           |
 
 ### Actions
 
-These write to your Via workspace only (Target Lists, follows); they never contact anyone.
+These manage Via workspace data and settings, including lists, networks, follows and result views. Some actions delete or replace data and require confirmation. They do not send outreach messages.
 
-| Tool                  | Description                                                                                                  |
-| --------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `run_product_command` | Run one supported Via action, such as saving a result to a Target List or following a person or company.     |
-| `campaign_workspace`  | Save a People or Companies result as a Target List, list your Target Lists, or open one to see its activity. |
+| Tool                  | Description                                                                                                                          |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `run_product_command` | Manage lists, networks, follows, research settings and result views through supported Via actions, with confirmation where required. |
+| `campaign_workspace`  | Save a People or Companies result as a Target List, list your Target Lists, or open one to see its activity.                         |
 
 <!-- END GENERATED TOOLS -->
 
@@ -150,6 +153,39 @@ one, such as shared work history or email activity.
 how you're connected, Claude then runs one `run_network_query` for John; select him in the
 result to open his Pathways, showing the strongest route in along with its supporting
 evidence.
+
+### Example 3: Comparing target accounts
+
+**User prompt:** "Compare Stripe and HubSpot by how well my network can reach them."
+
+**What happens:** Claude calls `run_network_query` once with a Companies result and the
+2 named targets. It answers from each company's Access summary and reports unresolved
+or incomplete results separately. You can ask to display the same result or explicitly
+save it as a Target List. Saving does not start outreach.
+
+## Working with other connectors
+
+Via supplies network results, relationship evidence and Via workspace actions. Your
+assistant can combine these with separately authorized CRM, prospecting, call-recorder
+or messaging connectors. Those connectors own their reads, writes and sends; connecting
+Via alone does not grant access to them or to your chat history.
+
+Paste company names or domains for a direct query. File-column references require a file
+already stored in Via with an authorized attachment identifier. They cannot read arbitrary
+files attached to your assistant's chat.
+
+## Troubleshooting
+
+- **Connection or account issue:** Ask for `get_mcp_status` and `get_authenticated_user`.
+  Finish any required Terms/profile steps in Via. Reconnect the custom connector if its
+  authorization has expired or you revoked it.
+- **Results still running:** Continue reading the same result. Pending or failed work does
+  not mean that your network has no matches.
+- **No interactive table:** Use a client with MCP Apps support, or ask for data rows.
+- **Missing relationship evidence:** Request it for selected rows or open the person's
+  Pathways. Deferred evidence does not arrive through repeated page reads alone.
+- **Need help:** Contact support below with your client and the error message.
+  Do not send access tokens or private network exports.
 
 ## Privacy Policy
 
