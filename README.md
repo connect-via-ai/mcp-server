@@ -21,6 +21,8 @@ Via enforces the applicable confirmation requirements. The connector does not se
   more).
 - **Insights**: Ask for a specific rollup -- your strongest connections, your best-connected
   companies, or where your network clusters by function or location.
+- **Target lists**: Save a complete People or Companies result, reopen a saved list,
+  and review its targets, next actions, and history. Saving never starts outreach.
 - **Prompt suggestions**: The connector publishes starting prompts, including a guided
   walkthrough -- say `via-demo` or `via demo`, or pick "Where does my network already reach
   my buyers?" from your client's prompt suggestions. Slash-command support varies by client.
