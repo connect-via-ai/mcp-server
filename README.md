@@ -126,7 +126,7 @@ These manage Via workspace data and settings, including lists, networks, follows
 | Tool                  | Description                                                                                                                          |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | `run_product_command` | Manage lists, networks, follows, research settings and result views through supported Via actions, with confirmation where required. |
-| `campaign_workspace`  | Save a People or Companies result as a Target List, list your Target Lists, or open one to see its activity.                         |
+| `campaign_workspace`  | Save a People or Companies result as a Target List, list your Target Lists, or open one to see its targets and activity.             |
 
 <!-- END GENERATED TOOLS -->
 
