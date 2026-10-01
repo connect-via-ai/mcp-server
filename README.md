@@ -181,6 +181,8 @@ files attached to your assistant's chat.
 - **Connection or account issue:** Ask for `get_mcp_status` and `get_authenticated_user`.
   Finish any required Terms/profile steps in Via. Reconnect the custom connector if its
   authorization has expired or you revoked it.
+- **Trial ended:** A personal account whose Via trial has ended gets a tool error with
+  code `personal_plan_required` and a billing link. Subscribe in Via, then retry.
 - **Results still running:** Continue reading the same result. Pending or failed work does
   not mean that your network has no matches.
 - **No interactive table:** Use a client with MCP Apps support, or ask for data rows.
