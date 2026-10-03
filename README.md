@@ -111,7 +111,7 @@ the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude'
 | `run_network_query`             | Find People or Companies using your network and optional company columns from files stored in Via, with Access on each row and Pathways from a selected person. |
 | `search_people`                 | Look up people by name, or find exact people by email or LinkedIn URL; for title searches, use run_network_query.                                               |
 | `search_companies`              | Look up companies by name or domain, with employee count, industries, and domains.                                                                              |
-| `find_network_insights`         | Compute a specific insight: strongest connections, best-connected companies, or function/location breakdowns.                                                   |
+| `find_network_insights`         | Compute network insights including companies by persona; second degree is opt-in, and unsearched or incomplete zero counts are unknown.                         |
 | `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                         |
 | `get_demo_prompt`               | Get the guided Via walkthrough included with this server release, without fetching a web page.                                                                  |
 | `get_mcp_status`                | Check that your Via connection is ready, or inspect a previous result.                                                                                          |
@@ -131,6 +131,16 @@ These manage Via workspace data and settings, including lists, networks, follows
 | `campaign_workspace`  | Save a People or Companies result as a Target List, list your Target Lists, or open one to see its targets and activity.             |
 
 <!-- END GENERATED TOOLS -->
+
+For explicit second-degree or two-hop persona requests, the initiating host sends
+the typed `include_second_degree=true` flag to `find_network_insights`; the default
+is `false`. Use the same selected `network_scope`, preserving its sources,
+exclusions, strength and evidence constraints. Only degree changes for that query,
+not the saved filters or global default. Unsearched second-degree counts are
+`null` with `second_degree_status="not_searched"`; partial or unavailable coverage
+also withholds a misleading zero while retaining valid matches and diagnostics.
+A numeric `0` with status `"searched"` means the searched sample completed without
+matching second-degree contacts for that company.
 
 ## Usage Examples
 
