@@ -108,6 +108,10 @@ The companion is optional. `get_mcp_status` reports its identity and version com
 without download links or installation instructions. Downloads remain a user choice in
 Via's setup card; the connector does not require a skill installation to operate.
 
+Skill version `2026.10.06.1` and plugin version `1.0.9` use the separate read and
+write tools. Earlier skill versions report `update_required` rather than compatibility
+with the retired combined tool names.
+
 ## Tools
 
 <!-- BEGIN GENERATED TOOLS (scripts/render_mcp_public_readme.py) -->
