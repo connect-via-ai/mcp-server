@@ -63,6 +63,9 @@ claude mcp add --transport http via https://mcp.connectvia.ai/mcp
 
 Interactive results need an MCP Apps-capable client such as Claude.ai or Claude Desktop.
 Data-only clients can read result rows and request a selected person's Pathways through tools.
+Responses include each result row once, with page counts that match the returned rows.
+The result-row tool accepts either the returned continuation cursor or the next-page
+address. Paging reads the saved result and does not repeat the query.
 
 Or add it to your Claude Code configuration directly:
 
@@ -100,6 +103,10 @@ Both are available once you're signed in at [app.connectvia.ai](https://app.conn
 open the **Agent** panel, choose the **Connect** tab, and use the **Downloads** section of
 the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude's
 **Customize -> Plugins**; the skill unzips alongside your custom connector.
+
+The companion is optional. `get_mcp_status` reports its identity and version compatibility,
+without download links or installation instructions. Downloads remain a user choice in
+Via's setup card; the connector does not require a skill installation to operate.
 
 ## Tools
 
