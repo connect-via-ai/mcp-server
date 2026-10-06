@@ -117,6 +117,8 @@ the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude'
 | `get_demo_prompt`               | Get the guided Via walkthrough included with this server release, without fetching a web page.                                                                  |
 | `get_mcp_status`                | Check that your Via connection is ready, or inspect a previous result.                                                                                          |
 | `read_signals`                  | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                           |
+| `read_product_command`          | Read saved lists, networks, result summaries, and person networks through supported Via queries.                                                                |
+| `read_campaign_workspace`       | Browse your Target Lists, saved results, and their targets and activity.                                                                                        |
 | `render_network_result`         | Display a completed People or Companies result.                                                                                                                 |
 | `read_network_result_page`      | Read more rows from a result, or check whether it has finished computing.                                                                                       |
 | `open_selected_person_pathways` | Verify introduction routes and relationship evidence for one person on a saved result.                                                                          |
@@ -126,10 +128,10 @@ the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude'
 
 These manage Via workspace data and settings, including lists, networks, follows and result views. Some actions delete or replace data and require confirmation. They do not send outreach messages.
 
-| Tool                  | Description                                                                                                                          |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `run_product_command` | Manage lists, networks, follows, research settings and result views through supported Via actions, with confirmation where required. |
-| `campaign_workspace`  | Save a People or Companies result as a Target List, list your Target Lists, or open one to see its targets and activity.             |
+| Tool                       | Description                                                                                              |
+| -------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `write_product_command`    | Change lists, networks, follows, settings, result views, and target lists through supported Via actions. |
+| `write_campaign_workspace` | Save a People or Companies result as a Target List without starting outreach.                            |
 
 <!-- END GENERATED TOOLS -->
 
