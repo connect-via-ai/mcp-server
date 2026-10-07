@@ -114,6 +114,10 @@ with the retired combined tool names.
 
 ## Tools
 
+Every tool publishes the same readable name in `title` and `annotations.title`.
+`run_network_query.network_scope` explicitly declares its object type and retains
+its referenced schema for network-source and relationship constraints.
+
 <!-- BEGIN GENERATED TOOLS (scripts/render_mcp_public_readme.py) -->
 
 ### Read-only queries
