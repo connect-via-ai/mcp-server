@@ -96,8 +96,9 @@ profile and, where enabled, your Terms and onboarding status.
 
 Via publishes an official **Network Workflow** skill that teaches the assistant to use one
 typed query per request, read the Access summary already on each row, and open Pathways
-only from a selected person -- instead of re-querying or building its own tables. The
-**Via** plugin bundles that skill with the connector for one-step setup.
+only from a selected person. Ordinary requests use Via's returned data. Interactive
+requests render the retained result without another query or duplicate tables.
+The **Via** plugin bundles that skill with the connector for one-step setup.
 
 Both are available once you're signed in at [app.connectvia.ai](https://app.connectvia.ai):
 open the **Agent** panel, choose the **Connect** tab, and use the **Downloads** section of
@@ -108,9 +109,11 @@ The companion is optional. `get_mcp_status` reports its identity and version com
 without download links or installation instructions. Downloads remain a user choice in
 Via's setup card; the connector does not require a skill installation to operate.
 
-Skill version `2026.10.06.1` and plugin version `1.0.9` use the separate read and
-write tools. Earlier skill versions report `update_required` rather than compatibility
-with the retired combined tool names.
+Skill version `2026.10.07.1` and plugin version `1.0.10` use the separate read and
+write tools. The companion keeps other requested sources separate from Via's results.
+Earlier skill versions report `update_required`. The assistant explains the version
+mismatch and asks before an update; it does not download or install one without
+explicit user approval. The connector remains available without the companion.
 
 ## Tools
 
