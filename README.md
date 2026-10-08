@@ -196,6 +196,10 @@ evidence.
 or incomplete results separately. You can ask to display the same result or explicitly
 save it as a Target List. Saving does not start outreach.
 
+When you ask for a summary of the current result, Via counts the complete
+visible view, including rows beyond its first page. The summary respects the
+result's relationship-strength selection and does not run another search.
+
 ## Working with other connectors
 
 Via supplies network results, relationship evidence and Via workspace actions. Your
