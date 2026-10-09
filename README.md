@@ -23,6 +23,10 @@ Via enforces the applicable confirmation requirements. The connector does not se
   companies, or where your network clusters by function or location.
 - **Target lists**: Save a complete People or Companies result, reopen a saved list,
   and review its targets, next actions, and history. Saving never starts outreach.
+- **Email hand-offs**: When you hand an email you are drafting in Via to your own agent,
+  Via queues a brief for it. Your agent lists your queued hand-offs, reads one brief, writes
+  the email in your own mail tool, and marks the hand-off drafted or skipped. Via never
+  sends the email, and these tools only see your own hand-offs.
 - **Prompt suggestions**: The connector publishes starting prompts, including a guided
   walkthrough -- say `via-demo` or `via demo`, or pick "Where does my network already reach
   my buyers?" from your client's prompt suggestions. Slash-command support varies by client.
@@ -135,6 +139,8 @@ its referenced schema for network-source and relationship constraints.
 | `get_demo_prompt`               | Get the guided Via walkthrough included with this server release, without fetching a web page.                                                                  |
 | `get_mcp_status`                | Check that your Via connection is ready, or inspect a previous result.                                                                                          |
 | `read_signals`                  | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                           |
+| `list_outreach_handoffs`        | List the email hand-offs you queued in Via for your own agent to write.                                                                                         |
+| `get_outreach_handoff`          | Read one queued email hand-off with its full brief and draft details.                                                                                           |
 | `read_product_command`          | Read saved lists, networks, result summaries, and person networks through supported Via queries.                                                                |
 | `read_campaign_workspace`       | Browse your Target Lists, saved results, and their targets and activity.                                                                                        |
 | `render_network_result`         | Display a completed People or Companies result.                                                                                                                 |
@@ -146,10 +152,11 @@ its referenced schema for network-source and relationship constraints.
 
 These manage Via workspace data and settings, including lists, networks, follows and result views. Some actions delete or replace data and require confirmation. They do not send outreach messages.
 
-| Tool                       | Description                                                                                              |
-| -------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `write_product_command`    | Change lists, networks, follows, settings, result views, and target lists through supported Via actions. |
-| `write_campaign_workspace` | Save a People or Companies result as a Target List without starting outreach.                            |
+| Tool                        | Description                                                                                              |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `complete_outreach_handoff` | Mark a queued email hand-off as drafted or skipped once your agent has handled it.                       |
+| `write_product_command`     | Change lists, networks, follows, settings, result views, and target lists through supported Via actions. |
+| `write_campaign_workspace`  | Save a People or Companies result as a Target List without starting outreach.                            |
 
 <!-- END GENERATED TOOLS -->
 
