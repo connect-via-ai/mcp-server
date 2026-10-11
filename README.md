@@ -27,7 +27,9 @@ Via enforces the applicable confirmation requirements. The connector does not se
   Both exact lookups and search pages include current employment details,
   including job titles, when available.
 - **Company search**: Look up companies by name or domain, with employee count, industries,
-  and domains.
+  and domains. Find companies through connections whose current title contains requested
+  text and whose seniority matches a requested level; the same connection must meet both
+  criteria at that company.
 - **Access on every row**: Every person or company result carries a compact summary of how
   well you can reach them -- no extra query required.
 - **Pathways**: Select a person from a result to open the routes connecting you to them,
