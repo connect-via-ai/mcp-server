@@ -12,6 +12,20 @@ Via enforces the applicable confirmation requirements. The connector does not se
 
 - **People search**: Find people by name, persona, role, title, function, seniority, or
   location, or look up one exact person by email or LinkedIn profile URL.
+  Bounded name matching tolerates middle names and initials while preserving
+  uncertainty; identity matches and qualifying relationships in the selected
+  network are reported separately. Employer-qualified names use the complete
+  bounded global name cohort, not a reachable namesake or a rank winner.
+  Employer-qualified names need matching canonical employer IDs or the full
+  authored phrase in the person's employer name. Independently resolved labels,
+  aliases, or domain stems cannot drop authored qualifiers. Similar spellings
+  alone do not establish the same employer, even when employer details are
+  incomplete.
+  Role-qualified exact names preserve the complete qualifying identity cohort
+  before checking selected-network relationships. Name-picker pages return the
+  requested window without treating its size as proof of unique identity.
+  Both exact lookups and search pages include current employment details,
+  including job titles, when available.
 - **Company search**: Look up companies by name or domain, with employee count, industries,
   and domains.
 - **Access on every row**: Every person or company result carries a compact summary of how
@@ -129,24 +143,24 @@ its referenced schema for network-source and relationship constraints.
 
 ### Read-only queries
 
-| Tool                            | Description                                                                                                                                                     |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run_network_query`             | Find People or Companies using your network and optional company columns from files stored in Via, with Access on each row and Pathways from a selected person. |
-| `search_people`                 | Look up people by name, or find exact people by email or LinkedIn URL; for title searches, use run_network_query.                                               |
-| `search_companies`              | Look up companies by name or domain, with employee count, industries, and domains.                                                                              |
-| `find_network_insights`         | Compute network insights including companies by persona; second degree is opt-in, and unsearched or incomplete zero counts are unknown.                         |
-| `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                         |
-| `get_demo_prompt`               | Get the guided Via walkthrough included with this server release, without fetching a web page.                                                                  |
-| `get_mcp_status`                | Check that your Via connection is ready, or inspect a previous result.                                                                                          |
-| `read_signals`                  | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                           |
-| `list_outreach_handoffs`        | List the email hand-offs you queued in Via for your own agent to write.                                                                                         |
-| `get_outreach_handoff`          | Read one queued email hand-off with its full brief and draft details.                                                                                           |
-| `read_product_command`          | Read saved lists, networks, result summaries, and person networks through supported Via queries.                                                                |
-| `read_campaign_workspace`       | Browse your Target Lists, saved results, and their targets and activity.                                                                                        |
-| `render_network_result`         | Display a completed People or Companies result.                                                                                                                 |
-| `read_network_result_page`      | Read more rows from a result, or check whether it has finished computing.                                                                                       |
-| `open_selected_person_pathways` | Verify introduction routes and relationship evidence for one person on a saved result.                                                                          |
-| `read_relationship_evidence`    | Read why you know people on a result, whose evidence arrives only when requested here or in Pathways.                                                           |
+| Tool                            | Description                                                                                                                                                           |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run_network_query`             | Find People or Companies using your network and optional company columns from files stored in Via, with Access on each row and Pathways from a selected person.       |
+| `search_people`                 | Look up people by name, email or LinkedIn URL with bounded canonical name matching, distinct from selected-network matches; use run_network_query for title searches. |
+| `search_companies`              | Look up companies by name or domain, with employee count, industries, and domains.                                                                                    |
+| `find_network_insights`         | Compute network insights including companies by persona; second degree is opt-in, and unsearched or incomplete zero counts are unknown.                               |
+| `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                               |
+| `get_demo_prompt`               | Get the guided Via walkthrough included with this server release, without fetching a web page.                                                                        |
+| `get_mcp_status`                | Check that your Via connection is ready, or inspect a previous result.                                                                                                |
+| `read_signals`                  | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                                 |
+| `list_outreach_handoffs`        | List the email hand-offs you queued in Via for your own agent to write.                                                                                               |
+| `get_outreach_handoff`          | Read one queued email hand-off with its full brief and draft details.                                                                                                 |
+| `read_product_command`          | Read saved lists, networks, result summaries, and person networks through supported Via queries.                                                                      |
+| `read_campaign_workspace`       | Browse your Target Lists, saved results, and their targets and activity.                                                                                              |
+| `render_network_result`         | Display a completed People or Companies result.                                                                                                                       |
+| `read_network_result_page`      | Read more rows from a result, or check whether it has finished computing.                                                                                             |
+| `open_selected_person_pathways` | Verify introduction routes and relationship evidence for one person on a saved result.                                                                                |
+| `read_relationship_evidence`    | Read why you know people on a result, whose evidence arrives only when requested here or in Pathways.                                                                 |
 
 ### Actions
 
