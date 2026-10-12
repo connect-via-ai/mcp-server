@@ -41,6 +41,14 @@ Via enforces the applicable confirmation requirements. The connector does not se
   and review its targets, next actions, and history. Saved lists show their latest
   recorded Access while background checks update it. Opening a list does not start
   another Access query. Saving never starts outreach.
+  People and Company Lists stay separate: mixed or opposite-kind additions return
+  `campaign_target_kind_mismatch` in structured error data without changing the List.
+  The human reply names the destination kind, suggests a matching-kind target list,
+  and says nothing was saved; internal codes stay out of the refusal text. Company Lists can
+  retain unresolved source targets even when no canonical company is found.
+  Resolver outages still fail without creating a List.
+  Existing mixed Lists remain unchanged.
+  Already-supported empty Company saves retain Company kind and their source Networks.
 - **Email hand-offs**: When you hand an email you are drafting in Via to your own agent,
   Via queues a brief for it. Your agent lists your queued hand-offs, reads one brief, writes
   the email in your own mail tool, and marks the hand-off drafted or skipped. Via never
