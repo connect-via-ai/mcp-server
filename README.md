@@ -38,7 +38,9 @@ Via enforces the applicable confirmation requirements. The connector does not se
 - **Insights**: Ask for a specific rollup -- your strongest connections, your best-connected
   companies, or where your network clusters by function or location.
 - **Target lists**: Save a complete People or Companies result, reopen a saved list,
-  and review its targets, next actions, and history. Saving never starts outreach.
+  and review its targets, next actions, and history. Saved lists show their latest
+  recorded Access while background checks update it. Opening a list does not start
+  another Access query. Saving never starts outreach.
 - **Email hand-offs**: When you hand an email you are drafting in Via to your own agent,
   Via queues a brief for it. Your agent lists your queued hand-offs, reads one brief, writes
   the email in your own mail tool, and marks the hand-off drafted or skipped. Via never
