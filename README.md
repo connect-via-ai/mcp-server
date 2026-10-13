@@ -41,6 +41,7 @@ Via enforces the applicable confirmation requirements. The connector does not se
   and review its targets, next actions, and history. Saved lists show their latest
   recorded Access while background checks update it. Opening a list does not start
   another Access query. Saving never starts outreach.
+  Compatible MCP tool and field names remain unchanged: `campaign_id` identifies a target list.
   People and Company Lists stay separate: mixed or opposite-kind additions return
   `campaign_target_kind_mismatch` in structured error data without changing the List.
   The human reply names the destination kind, suggests a matching-kind target list,
