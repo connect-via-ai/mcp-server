@@ -10,26 +10,12 @@ Via enforces the applicable confirmation requirements. The connector does not se
 
 ## Features
 
-- **People search**: Find people by name, persona, role, title, function, seniority, or
-  location, or look up one exact person by email or LinkedIn profile URL.
-  Bounded name matching tolerates middle names and initials while preserving
-  uncertainty; identity matches and qualifying relationships in the selected
-  network are reported separately. Employer-qualified names use the complete
-  bounded global name cohort, not a reachable namesake or a rank winner.
-  Employer-qualified names need matching canonical employer IDs or the full
-  authored phrase in the person's employer name. Independently resolved labels,
-  aliases, or domain stems cannot drop authored qualifiers. Similar spellings
-  alone do not establish the same employer, even when employer details are
-  incomplete.
-  Role-qualified exact names preserve the complete qualifying identity cohort
-  before checking selected-network relationships. Name-picker pages return the
-  requested window without treating its size as proof of unique identity.
-  Both exact lookups and search pages include current employment details,
-  including job titles, when available.
-- **Company search**: Look up companies by name or domain, with employee count, industries,
-  and domains. Find companies through connections whose current title contains requested
-  text and whose seniority matches a requested level; the same connection must meet both
-  criteria at that company.
+- **People search**: Find people in your network by name, company, role, title,
+  function, seniority, location, email or LinkedIn URL. Preserve all supplied
+  constraints in one query. An exact identity match and a qualifying network
+  relationship are different facts; missing relationship evidence stays unknown.
+- **Company search**: Find companies by name, domain or ordinary search language,
+  with employee count, industries and Access when available.
 - **Access on every row**: Every person or company result carries a compact summary of how
   well you can reach them -- no extra query required.
 - **Pathways**: Select a person from a result to open the routes connecting you to them,
@@ -45,14 +31,16 @@ Via enforces the applicable confirmation requirements. The connector does not se
   Without `row_ids`, `limit` defaults to 25. Brief and full modes cover the same
   selected people. Another connected app can consume this payload; this read does
   not update your CRM or send email.
-- **Insights**: Ask for a specific rollup -- your strongest connections, your best-connected
-  companies, or where your network clusters by function or location.
 - **Target lists**: Save a complete People or Companies result, reopen a saved list,
   and review its targets, next actions, and history. Saved lists show their latest
   recorded Access while background checks update it. Opening a list does not start
   another Access query. Saving never starts outreach.
   MCP tools use `read_target_list_workspace`, `write_target_list_workspace`,
   and `target_list_id`. Target List action names also use `target_list`.
+  Existing integrations using `read_campaign_workspace`, `write_campaign_workspace`,
+  `save_network_result_campaign`, original action names, or `campaign_id` remain
+  supported with the same permissions and confirmation requirements. Those calls
+  retain their existing result fields; newly discovered calls use the target-list contract.
   People and Company Lists stay separate: mixed or opposite-kind additions return
   `target_list_target_kind_mismatch` in structured error data without changing the List.
   The human reply names the destination kind, suggests a matching-kind target list,
@@ -61,15 +49,12 @@ Via enforces the applicable confirmation requirements. The connector does not se
   Resolver outages still fail without creating a List.
   Existing mixed Lists remain unchanged.
   Already-supported empty Company saves retain Company kind and their source Networks.
-- **Email hand-offs**: When you hand an email you are drafting in Via to your own agent,
-  Via queues a brief for it. Your agent lists your queued hand-offs, reads one brief, writes
-  the email in your own mail tool, and marks the hand-off drafted or skipped. Via never
-  sends the email, and these tools only see your own hand-offs.
-- **Prompt suggestions**: The connector publishes starting prompts, including a guided
-  walkthrough -- say `via-demo` or `via demo`, or pick "Where does my network already reach
-  my buyers?" from your client's prompt suggestions. Slash-command support varies by client.
-  The reviewed walkthrough ships with each server release. Both the demo resource and
-  `get_demo_prompt` serve that version; neither fetches demo instructions from a website.
+- **Email hand-offs**: Your agent can list queued email briefs, read one and mark
+  it drafted or skipped. Your separate mail tool owns the draft and send; Via
+  never sends email. The connector only sees your own queued hand-offs.
+- **Prompt suggestions**: The connector publishes starting prompts, including
+  a guided walkthrough available from your client's prompt or resource picker.
+  The reviewed walkthrough ships with each server release.
 
 ## Setup
 
@@ -122,31 +107,26 @@ Or add it to your Claude Code configuration directly:
 }
 ```
 
-### ChatGPT plugin
+### ChatGPT
 
-Configure the Via plugin with `https://mcp.connectvia.ai/mcp/openai`.
-This endpoint exposes each workspace operation with its own name and typed inputs,
-including Target List operations, while sharing Via's execution and confirmation rules.
-The catalog below lists its operations. Claude setup and the optional Claude companion
-continue to use `https://mcp.connectvia.ai/mcp`.
+Add Via as a custom MCP connector using `https://mcp.connectvia.ai/mcp`, then
+complete the existing Via sign-in. Claude and ChatGPT use the same server URL,
+authentication and tool catalog. Custom connector availability depends on your
+client and account. Public directory publication is a separate release step.
 
-The operation endpoint provides a compact index of tool purposes, argument names,
-and confirmation requirements during initialization. Hosts supporting native tool
-search can use this index while loading full input schemas on demand. The host
-controls loading; the server continues to publish the complete operation catalog.
+### Shared tool interface
 
-### Compact data connections
+With Target Lists enabled, the default connection exposes thirteen model-visible tools:
+network search, paging, selected-person Pathways, relationship evidence, explicit
+display, command-schema discovery, product reads/writes, Target List reads/writes and queued-email hand-offs.
+The original 46 product commands keep their permissions and confirmations.
+`command_schema` lists available commands or returns one command's argument schema.
 
-Private server operators can enable an optional compact data profile on `/mcp`.
-With Target Lists enabled, this publishes eight tools for network search, paging,
-selected-person Pathways, product reads/writes, Target List workspace reads/writes,
-and action-schema discovery. The original 46 product actions retain their existing
-permissions and confirmations. This profile returns data and excludes interactive
-Apps and supplemental identity lookups, signals, hand-offs and standalone evidence
-reads. Default connections keep the full catalog.
-
-This optional profile is for private functional testing. It is not the ChatGPT
-directory catalog, which requires individually exposed operations on `/mcp/openai`.
+Ordinary requests return data. An explicit request to display or interact with a
+result opens that retained result in the Via App, without another search. App
+controls have four additional helpers hidden from the model. Your client may need
+to refresh its connection to see the updated tool list. Expanded server profiles
+can provide supplemental tools; the table below describes the default interface.
 
 ### Authentication
 
@@ -157,8 +137,8 @@ Tokens are automatically refreshed.
 ### Account readiness
 
 New accounts finish a short onboarding step (Terms acceptance and profile) at
-[app.connectvia.ai](https://app.connectvia.ai). `get_authenticated_user` returns your
-profile and, where enabled, your Terms and onboarding status.
+[app.connectvia.ai](https://app.connectvia.ai). Complete this in the Via app before
+using the connector.
 
 ## Companion skill / plugin
 
@@ -173,15 +153,15 @@ open the **Agent** panel, choose the **Connect** tab, and use the **Downloads** 
 the **Via for Claude** card. The plugin installs by uploading its ZIP in Claude's
 **Customize -> Plugins**; the skill unzips alongside your custom connector.
 
-The companion is optional. `get_mcp_status` reports its identity and version compatibility,
-without download links or installation instructions. Downloads remain a user choice in
+The companion is optional. Where exposed by your connection, `get_mcp_status`
+reports its identity and version compatibility without installation instructions. Downloads remain a user choice in
 Via's setup card; the connector does not require a skill installation to operate.
 
-Skill version `2026.10.14.1` and plugin version `1.0.13` use the separate read and
+Skill version `2026.10.14.2` and plugin version `1.0.14` use the separate read and
 write tools. The companion keeps other requested sources separate from Via's results.
 It reads viewer-to-person evidence in batches and verifies introduction-route legs
 through selected-Person Pathways. Missing evidence remains unknown.
-Earlier skill versions report `update_required`. The assistant explains the version
+Where compatibility checks are available, earlier skill versions report `update_required`. The assistant explains the version
 mismatch and asks before an update; it does not download or install one without
 explicit user approval. The connector remains available without the companion.
 
@@ -193,30 +173,22 @@ its referenced schema for network-source and relationship constraints.
 
 <!-- BEGIN GENERATED TOOLS (scripts/render_mcp_public_readme.py) -->
 
-### Claude and existing MCP clients
+### Read-only queries
 
-#### Read-only queries
+| Tool                            | Description                                                                                                                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run_network_query`             | Find People or Companies using your network and optional company columns from files stored in Via, with Access on each row and Pathways from a selected person. |
+| `list_outreach_handoffs`        | List the email hand-offs you queued in Via for your own agent to write.                                                                                         |
+| `get_outreach_handoff`          | Read one queued email hand-off with its full brief and draft details.                                                                                           |
+| `read_product_command`          | Read saved lists, networks, result summaries, and person networks through supported Via queries.                                                                |
+| `read_target_list_workspace`    | Browse your Target Lists, saved results, and their targets and activity.                                                                                        |
+| `command_schema`                | Discover supported Via actions and their required inputs and confirmation requirements.                                                                         |
+| `render_network_result`         | Display a completed People or Companies result.                                                                                                                 |
+| `read_network_result_page`      | Read more rows from a result, or check whether it has finished computing.                                                                                       |
+| `open_selected_person_pathways` | Verify introduction routes and relationship evidence for one person on a saved result.                                                                          |
+| `read_relationship_evidence`    | Read brief relationship facts or full detail for selected people, including connector preview second legs with verified and missing coverage.                   |
 
-| Tool                            | Description                                                                                                                                                           |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run_network_query`             | Find People or Companies using your network and optional company columns from files stored in Via, with Access on each row and Pathways from a selected person.       |
-| `search_people`                 | Look up people by name, email or LinkedIn URL with bounded canonical name matching, distinct from selected-network matches; use run_network_query for title searches. |
-| `search_companies`              | Look up companies by name or domain, with employee count, industries, and domains.                                                                                    |
-| `find_network_insights`         | Compute network insights including companies by persona; second degree is opt-in, and unsearched or incomplete zero counts are unknown.                               |
-| `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                               |
-| `get_demo_prompt`               | Get the guided Via walkthrough included with this server release, without fetching a web page.                                                                        |
-| `get_mcp_status`                | Check that your Via connection is ready, or inspect a previous result.                                                                                                |
-| `read_signals`                  | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                                 |
-| `list_outreach_handoffs`        | List the email hand-offs you queued in Via for your own agent to write.                                                                                               |
-| `get_outreach_handoff`          | Read one queued email hand-off with its full brief and draft details.                                                                                                 |
-| `read_product_command`          | Read saved lists, networks, result summaries, and person networks through supported Via queries.                                                                      |
-| `read_target_list_workspace`    | Browse your Target Lists, saved results, and their targets and activity.                                                                                              |
-| `render_network_result`         | Display a completed People or Companies result.                                                                                                                       |
-| `read_network_result_page`      | Read more rows from a result, or check whether it has finished computing.                                                                                             |
-| `open_selected_person_pathways` | Verify introduction routes and relationship evidence for one person on a saved result.                                                                                |
-| `read_relationship_evidence`    | Read brief relationship facts or full detail for selected people, including connector preview second legs with verified and missing coverage.                         |
-
-#### Actions
+### Actions
 
 These manage Via workspace data and settings, including lists, networks, follows and result views. Some actions delete or replace data and require confirmation. They do not send outreach messages.
 
@@ -226,95 +198,7 @@ These manage Via workspace data and settings, including lists, networks, follows
 | `write_product_command`       | Change lists, networks, follows, settings, result views, and target lists through supported Via actions. |
 | `write_target_list_workspace` | Save a People or Companies result as a Target List without starting outreach.                            |
 
-### ChatGPT operation catalog
-
-#### Read-only queries
-
-| Tool                            | Description                                                                                                                                                     |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run_network_query`             | Find People or Companies using your network and optional company columns from files stored in Via, with Access on each row and Pathways from a selected person. |
-| `search_people`                 | Resolve exact emails or LinkedIn URLs to person identities with a status for every input.                                                                       |
-| `search_companies`              | Look up companies by name or domain, with employee count, industries, and domains.                                                                              |
-| `find_network_insights`         | Compute network insights including companies by persona; second degree is opt-in, and unsearched or incomplete zero counts are unknown.                         |
-| `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                         |
-| `get_demo_prompt`               | Get the guided Via walkthrough included with this server release, without fetching a web page.                                                                  |
-| `get_mcp_status`                | Check that your Via connection is ready, or inspect a previous result.                                                                                          |
-| `read_signals`                  | Read your Via activity feed and summary, a specific person, and your saved follows and subscriptions.                                                           |
-| `list_outreach_handoffs`        | List the email hand-offs you queued in Via for your own agent to write.                                                                                         |
-| `get_outreach_handoff`          | Read one queued email hand-off with its full brief and draft details.                                                                                           |
-| `list_readback`                 | List readback in Via.                                                                                                                                           |
-| `network_readback`              | Network readback in Via.                                                                                                                                        |
-| `describe_results`              | Describe results in Via.                                                                                                                                        |
-| `open_person_network`           | Open person network in Via.                                                                                                                                     |
-| `list_target_lists`             | List the signed-in user's accessible Via Target Lists when asked to browse them.                                                                                |
-| `open_target_list`              | Read one accessible Via Target List: members and saved results by default, or its events, comments or next_actions section; contains no call transcripts.       |
-| `render_network_result`         | Display a completed People or Companies result.                                                                                                                 |
-| `read_network_result_page`      | Read more rows from a result, or check whether it has finished computing.                                                                                       |
-| `open_selected_person_pathways` | Verify introduction routes and relationship evidence for one person on a saved result.                                                                          |
-| `read_relationship_evidence`    | Read brief relationship facts or full detail for selected people, including connector preview second legs with verified and missing coverage.                   |
-
-#### Actions
-
-These manage Via workspace data and settings, including lists, networks, follows and result views. Some actions delete or replace data and require confirmation. They do not send outreach messages.
-
-| Tool                         | Description                                                                                                                           |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `complete_outreach_handoff`  | Mark a queued email hand-off as drafted or skipped once your agent has handled it.                                                    |
-| `create_list`                | Create list in Via.                                                                                                                   |
-| `add_to_list`                | Add to list in Via.                                                                                                                   |
-| `remove_from_list`           | Remove from list in Via.                                                                                                              |
-| `save_selection_as_list`     | Save selection as list in Via.                                                                                                        |
-| `rename_list`                | Rename list in Via.                                                                                                                   |
-| `delete_list`                | Delete list in Via.                                                                                                                   |
-| `create_network`             | Create network in Via.                                                                                                                |
-| `add_to_network`             | Add to network in Via.                                                                                                                |
-| `remove_from_network`        | Remove from network in Via.                                                                                                           |
-| `move_to_network`            | Move to network in Via.                                                                                                               |
-| `rename_network`             | Rename network in Via.                                                                                                                |
-| `delete_network`             | Delete network in Via.                                                                                                                |
-| `import_connections`         | Import connections in Via.                                                                                                            |
-| `create_target_list`         | Create target list in Via.                                                                                                            |
-| `rename_target_list`         | Rename target list in Via.                                                                                                            |
-| `archive_target_list`        | Archive target list in Via.                                                                                                           |
-| `open_person_dossier`        | Open person dossier in Via.                                                                                                           |
-| `open_company_dossier`       | Open company dossier in Via.                                                                                                          |
-| `save_target_list_radar`     | Save target list radar in Via.                                                                                                        |
-| `add_target_list_note`       | Add target list note in Via.                                                                                                          |
-| `add_target_list_member`     | Add target list member in Via.                                                                                                        |
-| `remove_target_list_member`  | Remove target list member in Via.                                                                                                     |
-| `export_results`             | Export results in Via.                                                                                                                |
-| `remove_rows_where`          | Remove rows where in Via.                                                                                                             |
-| `filter_rows`                | Filter rows in Via.                                                                                                                   |
-| `sort_rows`                  | Sort rows in Via.                                                                                                                     |
-| `cap_rows`                   | Cap rows in Via.                                                                                                                      |
-| `undo_last`                  | Undo last in Via.                                                                                                                     |
-| `pivot_view`                 | Pivot view in Via.                                                                                                                    |
-| `rerank_as`                  | Rerank as in Via.                                                                                                                     |
-| `follow_company`             | Follow company in Via.                                                                                                                |
-| `follow_person`              | Follow person in Via.                                                                                                                 |
-| `unfollow_entity`            | Unfollow entity in Via.                                                                                                               |
-| `run_target_list_audit`      | Run target list audit in Via.                                                                                                         |
-| `dossier_curate`             | Dossier curate in Via.                                                                                                                |
-| `set_agent_icp`              | Set agent icp in Via.                                                                                                                 |
-| `agent_watch_add`            | Agent watch add in Via.                                                                                                               |
-| `agent_watch_remove`         | Agent watch remove in Via.                                                                                                            |
-| `set_agent_cadence`          | Set agent cadence in Via.                                                                                                             |
-| `watcher_pause`              | Watcher pause in Via.                                                                                                                 |
-| `watcher_resume`             | Watcher resume in Via.                                                                                                                |
-| `set_target_list_goal`       | Set target list goal in Via.                                                                                                          |
-| `save_result_as_target_list` | Save a complete authorized People or Companies result as a Via Target List after an explicit save request, without starting outreach. |
-
 <!-- END GENERATED TOOLS -->
-
-For explicit second-degree or two-hop persona requests, the initiating host sends
-the typed `include_second_degree=true` flag to `find_network_insights`; the default
-is `false`. Use the same selected `network_scope`, preserving its sources,
-exclusions, strength and evidence constraints. Only degree changes for that query,
-not the saved filters or global default. Unsearched second-degree counts are
-`null` with `second_degree_status="not_searched"`; partial or unavailable coverage
-also withholds a misleading zero while retaining valid matches and diagnostics.
-A numeric `0` with status `"searched"` means the searched sample completed without
-matching second-degree contacts for that company.
 
 ## Usage Examples
 
@@ -366,9 +250,9 @@ files attached to your assistant's chat.
 
 ## Troubleshooting
 
-- **Connection or account issue:** Ask for `get_mcp_status` and `get_authenticated_user`.
-  Finish any required Terms/profile steps in Via. Reconnect the custom connector if its
-  authorization has expired or you revoked it.
+- **Connection or account issue:** Finish any required Terms/profile steps in Via.
+  Reconnect the custom connector if its authorization has expired or you revoked it.
+  Expanded connections may also expose `get_mcp_status` and `get_authenticated_user`.
 - **Trial ended:** A personal account whose Via trial has ended gets a tool error with
   code `personal_plan_required` and a billing link. Subscribe in Via, then retry.
 - **Results still running:** Continue reading the same result. Pending or failed work does
