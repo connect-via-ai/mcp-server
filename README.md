@@ -245,11 +245,10 @@ one, such as shared work history or email activity.
 
 **User prompt:** "Look up john.smith@acme.com and tell me how we're connected."
 
-**What happens:** Claude calls `search_people` with `identifiers: [{"email":
-"john.smith@acme.com"}]` for an exact match -- profile only, no network query. To answer
-how you're connected, Claude then runs one `run_network_query` for John; select him in the
-result to open his Pathways, showing the strongest route in along with its supporting
-evidence.
+**What happens:** Claude calls `run_network_query` once with `deliverable: "people"` and
+`person_identifiers: ["john.smith@acme.com"]` for that exact person. The row carries their
+Access summary and likely introducers; select the row to open their Pathways, showing
+the strongest route in along with its supporting evidence.
 
 ### Example 3: Comparing target accounts
 
