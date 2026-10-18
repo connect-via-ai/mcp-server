@@ -116,15 +116,16 @@ client and account. Public directory publication is a separate release step.
 
 ### Shared tool interface
 
-The default connection exposes network search, paging, selected-person Pathways,
+The default connection exposes your signed-in profile, network search, paging, selected-person Pathways,
 relationship evidence, display and queued-email hand-offs. Workspace actions are
 individually named and publish their complete input schemas. Related fields and
 bounded bulk selections stay together in one action. Existing permissions and
 confirmation requirements remain enforced by the same Via services.
 
 Ordinary requests return data. An explicit request to display or interact with a
-result opens that retained result in the Via App, without another search. App
-controls have four additional helpers hidden from the model. Your client may need
+result opens that saved result in the Via App, without another search. App
+controls have four additional helpers that only the interactive view calls; hosts
+without MCP Apps support may list them, and their descriptions name the tool to use instead. Your client may need
 to refresh its connection to see the updated tool list. Expanded server profiles
 can provide supplemental tools; the table below describes the default interface.
 
@@ -178,6 +179,7 @@ its referenced schema for network-source and relationship constraints.
 | Tool                            | Description                                                                                                                                                     |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `run_network_query`             | Find People or Companies using your network and optional company columns from files stored in Via, with Access on each row and Pathways from a selected person. |
+| `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                         |
 | `read_outreach_handoffs`        | List the email hand-offs you queued in Via for your own agent to write, or read one with its full brief and draft.                                              |
 | `read_saved_network`            | Read one of your saved Networks and its members.                                                                                                                |
 | `summarize_results`             | Summarize a result, saved Network or Target List by company, role, industry, seniority or location.                                                             |
@@ -277,7 +279,7 @@ files attached to your assistant's chat.
 
 - **Connection or account issue:** Finish any required Terms/profile steps in Via.
   Reconnect the custom connector if its authorization has expired or you revoked it.
-  Expanded connections may also expose `get_mcp_status` and `get_authenticated_user`.
+  `get_authenticated_user` shows your signed-in profile; expanded connections may also expose `get_mcp_status`.
 - **Trial ended:** A personal account whose Via trial has ended gets a tool error with
   code `personal_plan_required` and a billing link. Subscribe in Via, then retry.
 - **Results still running:** Continue reading the same result. Pending or failed work does
