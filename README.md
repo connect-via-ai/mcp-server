@@ -33,8 +33,10 @@ Via enforces the applicable confirmation requirements. The connector does not se
   not update your CRM or send email.
 - **Target lists**: Save a complete People or Companies result, reopen a saved list,
   and review its targets, next actions, and history. Saved lists show their latest
-  recorded Access while background checks update it. Opening a list does not start
-  another Access query. Saving never starts outreach.
+  recorded Access while background checks update it. Opening a list also shows its
+  saved Networks, source identities, and relationship rules; it does not change the
+  Networks selected for your search or start another Access query. Saving never
+  starts outreach.
   MCP tools use `read_target_list_workspace`, `write_target_list_workspace`,
   and `target_list_id`. Target List action names also use `target_list`.
   Existing integrations using `read_campaign_workspace`, `write_campaign_workspace`,
@@ -48,6 +50,12 @@ Via enforces the applicable confirmation requirements. The connector does not se
   retain unresolved source targets even when no canonical company is found.
   Resolver outages still fail without creating a List.
   Existing mixed Lists remain unchanged.
+  To find People **at companies in a saved Company List**, use
+  `run_network_query` with `deliverable: "people"` and
+  `company_lists: ["List name or id"]`. All currently readable Company members
+  constrain the employers; a preview is not the population. Use `any_of` for
+  alternative role criteria. By contrast, `lists` selects members **on** Lists
+  of the requested result kind. Neither field selects the List's saved Networks.
   Already-supported empty Company saves retain Company kind and their source Networks.
 - **Email hand-offs**: Your agent can list queued email briefs, read one and mark
   it drafted or skipped. Your separate mail tool owns the draft and send; Via
