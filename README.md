@@ -52,6 +52,10 @@ Via enforces the applicable confirmation requirements. The connector does not se
 - **Email hand-offs**: Your agent can list queued email briefs, read one and mark
   it drafted or skipped. Your separate mail tool owns the draft and send; Via
   never sends email. The connector only sees your own queued hand-offs.
+- **Intro emails**: Your agent can read your own writing profile, including your
+  intro email instructions and remembered wording, and write or rewrite an email
+  asking a connection to introduce you. Each intro is saved as a draft in Via;
+  nothing is sent, and the connector only reads your own profile and drafts.
 - **Prompt suggestions**: The connector publishes starting prompts, including
   a guided walkthrough available from your client's prompt or resource picker.
   The reviewed walkthrough ships with each server release.
@@ -117,7 +121,7 @@ client and account. Public directory publication is a separate release step.
 ### Shared tool interface
 
 The default connection exposes your signed-in profile, network search, paging, selected-person Pathways,
-relationship evidence, display and queued-email hand-offs. Workspace actions are
+relationship evidence, display, queued-email hand-offs and intro email drafts. Workspace actions are
 individually named and publish their complete input schemas. Related fields and
 bounded bulk selections stay together in one action. Existing permissions and
 confirmation requirements remain enforced by the same Via services.
@@ -181,6 +185,7 @@ its referenced schema for network-source and relationship constraints.
 | `run_network_query`             | Find People or Companies using your network and optional company columns from files stored in Via, with Access on each row and Pathways from a selected person. |
 | `get_authenticated_user`        | Read your Via profile and your Terms/onboarding status.                                                                                                         |
 | `read_outreach_handoffs`        | List the email hand-offs you queued in Via for your own agent to write, or read one with its full brief and draft.                                              |
+| `get_writing_profile`           | Read your own writing profile, including your intro email instructions, remembered wording and custom parts.                                                    |
 | `read_saved_network`            | Read one of your saved Networks and its members.                                                                                                                |
 | `summarize_results`             | Summarize a result, saved Network or Target List by company, role, industry, seniority or location.                                                             |
 | `explore_person_network`        | See the people a selected person knows whom you can reach, optionally filtered by role.                                                                         |
@@ -194,30 +199,31 @@ its referenced schema for network-source and relationship constraints.
 
 These manage Via workspace data and settings, including lists, networks, follows and result views. Some actions delete or replace data and require confirmation. They do not send outreach messages.
 
-| Tool                         | Description                                                                                     |
-| ---------------------------- | ----------------------------------------------------------------------------------------------- |
-| `complete_outreach_handoff`  | Mark a queued email hand-off as drafted or skipped once your agent has handled it.              |
-| `refine_network_result`      | Filter, sort, trim, group or re-rank a result into a new result, keeping the original.          |
-| `create_target_list`         | Create a Target List with a name, an optional goal and optional starting members.               |
-| `update_target_list`         | Rename a Target List, change its goal, or add a note to its activity.                           |
-| `run_target_list_audit`      | Check how well you are connected to a Target List's members and keep them followed.             |
-| `create_saved_network`       | Save a group of people as a named Network from a result, a list of people or a file.            |
-| `update_saved_network`       | Add, remove or move people in one of your saved Networks, or rename it.                         |
-| `import_connections`         | Import LinkedIn connections from a file or pasted profiles, for you or a named person.          |
-| `curate_dossier_proofs`      | Surface, pin or remove matching proofs in one person's dossier.                                 |
-| `follow_for_research`        | Follow a company or person to receive research updates on a cadence you choose.                 |
-| `update_agent_settings`      | Change your network agent's mission, watched topics, or how often it looks and reports.         |
-| `remove_network_result_rows` | Remove matching rows from a result after you confirm the change.                                |
-| `export_results`             | Export a result or a Target List's targets to a private CSV download.                           |
-| `add_target_list_members`    | Add people or companies to a Target List after you confirm the change.                          |
-| `remove_target_list_members` | Remove people or companies from a Target List after you confirm the change.                     |
-| `archive_target_list`        | Archive a Target List after you confirm the change.                                             |
-| `save_target_list_radar`     | Save radar criteria and cadence on a Target List after you confirm them.                        |
-| `delete_saved_network`       | Delete one of your saved Networks after you confirm the change.                                 |
-| `unfollow_research`          | Stop following a company or person for research after you confirm the change.                   |
-| `set_active_icp`             | Set, clear or switch the ideal customer profile that guides your searches after you confirm it. |
-| `set_watcher_paused`         | Pause or resume one of your monitored automations after you confirm the change.                 |
-| `save_result_as_target_list` | Save a People or Companies result as a Target List without starting outreach.                   |
+| Tool                         | Description                                                                                             |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `complete_outreach_handoff`  | Mark a queued email hand-off as drafted or skipped once your agent has handled it.                      |
+| `draft_intro`                | Write or rewrite an email asking a connection to introduce you, saved as a draft in Via and never sent. |
+| `refine_network_result`      | Filter, sort, trim, group or re-rank a result into a new result, keeping the original.                  |
+| `create_target_list`         | Create a Target List with a name, an optional goal and optional starting members.                       |
+| `update_target_list`         | Rename a Target List, change its goal, or add a note to its activity.                                   |
+| `run_target_list_audit`      | Check how well you are connected to a Target List's members and keep them followed.                     |
+| `create_saved_network`       | Save a group of people as a named Network from a result, a list of people or a file.                    |
+| `update_saved_network`       | Add, remove or move people in one of your saved Networks, or rename it.                                 |
+| `import_connections`         | Import LinkedIn connections from a file or pasted profiles, for you or a named person.                  |
+| `curate_dossier_proofs`      | Surface, pin or remove matching proofs in one person's dossier.                                         |
+| `follow_for_research`        | Follow a company or person to receive research updates on a cadence you choose.                         |
+| `update_agent_settings`      | Change your network agent's mission, watched topics, or how often it looks and reports.                 |
+| `remove_network_result_rows` | Remove matching rows from a result after you confirm the change.                                        |
+| `export_results`             | Export a result or a Target List's targets to a private CSV download.                                   |
+| `add_target_list_members`    | Add people or companies to a Target List after you confirm the change.                                  |
+| `remove_target_list_members` | Remove people or companies from a Target List after you confirm the change.                             |
+| `archive_target_list`        | Archive a Target List after you confirm the change.                                                     |
+| `save_target_list_radar`     | Save radar criteria and cadence on a Target List after you confirm them.                                |
+| `delete_saved_network`       | Delete one of your saved Networks after you confirm the change.                                         |
+| `unfollow_research`          | Stop following a company or person for research after you confirm the change.                           |
+| `set_active_icp`             | Set, clear or switch the ideal customer profile that guides your searches after you confirm it.         |
+| `set_watcher_paused`         | Pause or resume one of your monitored automations after you confirm the change.                         |
+| `save_result_as_target_list` | Save a People or Companies result as a Target List without starting outreach.                           |
 
 <!-- END GENERATED TOOLS -->
 
