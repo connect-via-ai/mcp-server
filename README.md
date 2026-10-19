@@ -230,7 +230,9 @@ These manage Via workspace data and settings, including lists, networks, follows
 | `create_saved_network`       | Save a group of people as a named Network from a result, a list of people or a file.                    |
 | `update_saved_network`       | Add, remove or move people in one of your saved Networks, or rename it.                                 |
 | `import_connections`         | Import LinkedIn connections from a file or pasted profiles, for you or a named person.                  |
-| `curate_dossier_proofs`      | Surface, pin or remove matching proofs in one person's dossier.                                         |
+| `focus_dossier_proofs`       | Bring matching proofs forward in one person's dossier.                                                  |
+| `pin_dossier_proofs`         | Pin matching proofs at the top of one person's dossier.                                                 |
+| `forget_dossier_proofs`      | Permanently remove matching proofs from one person's dossier.                                           |
 | `follow_for_research`        | Follow a company or person to receive research updates on a cadence you choose.                         |
 | `update_agent_settings`      | Change your network agent's mission, watched topics, or how often it looks and reports.                 |
 | `remove_network_result_rows` | Remove matching rows from a result after you confirm the change.                                        |
