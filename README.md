@@ -189,6 +189,10 @@ explicit user approval. The connector remains available without the companion.
 Every tool publishes the same readable name in `title` and `annotations.title`.
 `run_network_query.network_scope` explicitly declares its object type and retains
 its referenced schema for network-source and relationship constraints.
+A person in `network_sources` may carry their employer's `domain` or `company` name
+beside `name`; it only picks among people with that name and says which one it picked.
+When the name still matches several people, the question lists each with their title,
+company, LinkedIn URL and id to retry with.
 
 <!-- BEGIN GENERATED TOOLS (scripts/render_mcp_public_readme.py) -->
 
