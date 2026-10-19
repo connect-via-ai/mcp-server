@@ -191,8 +191,10 @@ Every tool publishes the same readable name in `title` and `annotations.title`.
 its referenced schema for network-source and relationship constraints.
 A person in `network_sources` may carry their employer's `domain` or `company` name
 beside `name`; it only picks among people with that name and says which one it picked.
-When the name still matches several people, the question lists each with their title,
-company, LinkedIn URL and id to retry with.
+The hint matches the current employer first, then any other current or past position in
+that person's own work history. When the name still matches several people, the question
+lists each with their title, company, LinkedIn URL and id to retry with, and says when
+none of them lists the hinted employer.
 
 <!-- BEGIN GENERATED TOOLS (scripts/render_mcp_public_readme.py) -->
 
