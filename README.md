@@ -53,9 +53,14 @@ Via enforces the applicable confirmation requirements. The connector does not se
   To find People **at companies in a saved Company List**, use
   `run_network_query` with `deliverable: "people"` and
   `company_lists: ["List name or id"]`. All currently readable Company members
-  constrain the employers; a preview is not the population. Use `any_of` for
-  alternative role criteria. By contrast, `lists` selects members **on** Lists
-  of the requested result kind. Neither field selects the List's saved Networks.
+  constrain the employers, and a People List contributes each member's current
+  employer; a preview is not the population. When the call names no
+  `network_sources`, Via searches the List's shared networks by their stored keys
+  and says so first ("Searched through: ... (shared on <List>)"). If fewer than 10
+  direct matches come back and no degree was asked for, the same call also searches
+  one warm or good introducer away and reports "N direct, M via one introducer".
+  Use `any_of` for alternative role criteria. By contrast, `lists` selects members
+  **on** Lists of the requested result kind.
   Already-supported empty Company saves retain Company kind and their source Networks.
 - **Email hand-offs**: Your agent can list queued email briefs, read one and mark
   it drafted or skipped. Your separate mail tool owns the draft and send; Via
