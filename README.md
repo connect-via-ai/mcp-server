@@ -56,7 +56,8 @@ Via enforces the applicable confirmation requirements. The connector does not se
   constrain the employers, and a People List contributes each member's current
   employer; a preview is not the population. When the call names no
   `network_sources`, Via searches the List's shared networks by their stored keys
-  and says so first ("Searched through: ... (shared on <List>)"). If fewer than 10
+  and says so first ("Searched through: ... (shared on <List>)"); a shared network
+  you cannot open is left out and named, and with none left Via searches your network. If fewer than 10
   direct matches come back and no degree was asked for, the same call also searches
   one warm or good introducer away and reports "N direct, M via one introducer".
   Use `any_of` for alternative role criteria. By contrast, `lists` selects members
