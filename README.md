@@ -176,7 +176,7 @@ The companion is optional. Where exposed by your connection, `get_mcp_status`
 reports its identity and version compatibility without installation instructions. Downloads remain a user choice in
 Via's setup card; the connector does not require a skill installation to operate.
 
-Skill version `2026.10.18.1` and plugin version `1.0.17` use the declared workflow
+Skill version `2026.10.19.1` and plugin version `1.0.17` use the declared workflow
 tools. The companion keeps other requested sources separate from Via's results.
 It reads viewer-to-person evidence in batches and verifies introduction-route legs
 through selected-Person Pathways. Missing evidence remains unknown.
