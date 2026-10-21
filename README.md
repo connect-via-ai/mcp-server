@@ -146,6 +146,9 @@ controls have four additional helpers that only the interactive view calls; host
 without MCP Apps support may list them, and their descriptions name the tool to use instead. Your client may need
 to refresh its connection to see the updated tool list. Expanded server profiles
 can provide supplemental tools; the table below describes the default interface.
+Via operator accounts also see a small set of record-correction tools (look up,
+preview, submit, read and undo a correction); they are listed and callable only
+while the account holds operator access, and never appear for other accounts.
 
 ### Authentication
 
