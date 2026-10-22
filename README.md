@@ -226,6 +226,7 @@ These manage Via workspace data and settings, including lists, networks, follows
 | ---------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `complete_outreach_handoff`  | Mark a queued email hand-off as drafted or skipped once your agent has handled it.                      |
 | `draft_intro`                | Write or rewrite an email asking a connection to introduce you, saved as a draft in Via and never sent. |
+| `capture_to_dossier`         | Save notes, meeting notes or emails to the private dossiers of the people and companies they mention.   |
 | `refine_network_result`      | Filter, sort, trim, group or re-rank a result into a new result, keeping the original.                  |
 | `create_target_list`         | Create a Target List with a name, an optional goal and optional starting members.                       |
 | `update_target_list`         | Rename a Target List, change its goal, or add a note to its activity.                                   |
