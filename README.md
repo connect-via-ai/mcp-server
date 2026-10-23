@@ -104,6 +104,7 @@ Add Via AI as a custom connector:
 
 ```
 claude mcp add --transport http via https://mcp.connectvia.ai/mcp
+claude mcp login via
 ```
 
 Interactive results need an MCP Apps-capable client such as Claude.ai or Claude Desktop.
@@ -125,6 +126,33 @@ Or add it to your Claude Code configuration directly:
 }
 ```
 
+### Codex
+
+Add the server to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.via]
+url = "https://mcp.connectvia.ai/mcp"
+```
+
+Then sign in with dynamic client registration:
+
+```
+codex mcp login via --oauth-client-registration dcr
+```
+
+Codex's default client registration does not work with Via's sign-in, so keep the
+`--oauth-client-registration dcr` flag.
+
+### Grok
+
+```
+grok mcp add via https://mcp.connectvia.ai/mcp
+```
+
+Grok opens Via's sign-in in your browser the first time it connects. `grok mcp doctor`
+checks the connection.
+
 ### ChatGPT
 
 Add Via as a custom MCP connector using `https://mcp.connectvia.ai/mcp`, then
@@ -135,7 +163,8 @@ client and account. Public directory publication is a separate release step.
 ### Shared tool interface
 
 The default connection exposes your signed-in profile, network search, paging, selected-person Pathways,
-relationship evidence, display, queued-email hand-offs and intro email drafts. Workspace actions are
+relationship evidence, display, queued-email hand-offs, intro email drafts, and saving notes, emails or
+research to your private dossiers (`delete_capture` undoes one save). Workspace actions are
 individually named and publish their complete input schemas. Related fields and
 bounded bulk selections stay together in one action. Existing permissions and
 confirmation requirements remain enforced by the same Via services.
@@ -154,6 +183,7 @@ while the account holds operator access, and never appears for other accounts.
 
 Via AI uses OAuth 2.0 through WorkOS AuthKit, with standard MCP resource-server discovery.
 When you first connect, you'll be redirected to Via AI's login page to authorize access.
+If you belong to more than one Via organization, pick the one to connect on that page.
 Tokens are automatically refreshed.
 
 ### Account readiness
@@ -226,7 +256,8 @@ These manage Via workspace data and settings, including lists, networks, follows
 | ---------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `complete_outreach_handoff`  | Mark a queued email hand-off as drafted or skipped once your agent has handled it.                      |
 | `draft_intro`                | Write or rewrite an email asking a connection to introduce you, saved as a draft in Via and never sent. |
-| `capture_to_dossier`         | Save notes, meeting notes or emails to the private dossiers of the people and companies they mention.   |
+| `capture_to_dossier`         | Save notes, emails or research to the private dossiers of the people and companies they mention.        |
+| `delete_capture`             | Delete something saved to Via, with every dossier entry it filed.                                       |
 | `refine_network_result`      | Filter, sort, trim, group or re-rank a result into a new result, keeping the original.                  |
 | `create_target_list`         | Create a Target List with a name, an optional goal and optional starting members.                       |
 | `update_target_list`         | Rename a Target List, change its goal, or add a note to its activity.                                   |
